@@ -17,8 +17,11 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(express.json());//allow express to parse json data
+const __dirname = path.resolve();
+
+app.use(express.json({ limit: "10mb"}));//allow express to parse json data
 app.use(cookieParser());//allow express to parse cookies
+
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productsRoutes);
 app.use("/api/cart", cartRoutes);
@@ -39,6 +42,3 @@ app.listen(PORT, () => {
 
     connectDB();
 });
-
-
-// 6HJkeGc3bpHleBJf
