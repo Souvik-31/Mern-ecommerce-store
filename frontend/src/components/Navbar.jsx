@@ -1,5 +1,5 @@
 import React from "react";
-import { ShoppingCart, UserPlus, LogIn, LogOut, Lock } from "lucide-react";
+import { ShoppingCart, UserPlus, LogIn, LogOut, Lock, Package } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useUserStore } from "../stores/useUserStore";
 import { useCartStore } from "../stores/useCartStore";
@@ -44,6 +44,17 @@ const Navbar = () => {
 								)}
 							</Link>
 						)}
+						{user && (
+    <Link
+        to={"/orders"}
+        className='relative group text-gray-300 hover:text-cyan-400 transition duration-300 
+        ease-in-out flex items-center'
+    >
+        <Package className='inline-block mr-1 group-hover:text-cyan-400' size={20} />
+        <span className='hidden sm:inline'>Orders</span>
+    </Link>
+)}
+
 						{isAdmin && (
 							<Link
 								className='bg-cyan-700 hover:bg-cyan-600 text-white px-3 py-1 rounded-md font-medium
