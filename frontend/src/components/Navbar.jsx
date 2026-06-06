@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { ShoppingCart, UserPlus, LogIn, LogOut, Lock, Package, Menu } from "lucide-react";
+import { ShoppingCart, UserPlus, LogIn, LogOut, Lock, Package, Menu, User } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useUserStore } from "../stores/useUserStore";
 import { useCartStore } from "../stores/useCartStore";
 
 const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
-    const { user, logout } = useUserStore();
+    const { user, logout, loginAsGuest } = useUserStore();
     const isAdmin = user?.role === "admin";
     const { cart } = useCartStore();
 
@@ -79,6 +79,13 @@ const Navbar = () => {
                             </button>
                         ) : (
                             <>
+                                <button
+                                    onClick={loginAsGuest}
+                                    className='border border-cyan-500 text-cyan-400 hover:bg-cyan-500 hover:text-white py-2 px-4 rounded-md flex items-center transition duration-300 ease-in-out font-medium'
+                                >
+                                    <User className='mr-2' size={18} />
+                                    Guest Mode
+                                </button>
                                 <Link
                                     to={"/signup"}
                                     className='bg-cyan-600 hover:bg-cyan-700 text-white py-2 px-4 rounded-md flex items-center transition duration-300 ease-in-out'
@@ -155,6 +162,16 @@ const Navbar = () => {
                                 </button>
                             ) : (
                                 <>
+                                    <button
+                                        onClick={() => {
+                                            loginAsGuest();
+                                            setMenuOpen(false);
+                                        }}
+                                        className='mb-2 border border-cyan-500 text-cyan-400 hover:bg-cyan-500 hover:text-white py-2 px-4 rounded-md flex items-center transition duration-300 ease-in-out font-medium'
+                                    >
+                                        <User className='mr-2' size={18} />
+                                        Guest Mode
+                                    </button>
                                     <Link
                                         to={"/signup"}
                                         className='mb-2 bg-cyan-600 hover:bg-cyan-700 text-white py-2 px-4 rounded-md flex items-center transition duration-300 ease-in-out'
