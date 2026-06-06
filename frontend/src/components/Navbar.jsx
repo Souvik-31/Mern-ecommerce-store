@@ -6,8 +6,8 @@ import { useCartStore } from "../stores/useCartStore";
 
 const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
-    const { user, logout, loginAsGuest } = useUserStore();
-    const isAdmin = user?.role === "admin";
+    const { user, logout, loginAsGuest, loginAsGuestAdmin } = useUserStore();
+    const isAdmin = user?.role === "admin" || user?.role === "guest-admin";
     const { cart } = useCartStore();
 
     return (
@@ -79,6 +79,13 @@ const Navbar = () => {
                             </button>
                         ) : (
                             <>
+                                <button
+                                    onClick={loginAsGuestAdmin}
+                                    className='border border-emerald-500 text-emerald-400 hover:bg-emerald-500 hover:text-white py-2 px-4 rounded-md flex items-center transition duration-300 ease-in-out font-medium'
+                                >
+                                    <Lock className='mr-2' size={18} />
+                                    Guest Admin
+                                </button>
                                 <button
                                     onClick={loginAsGuest}
                                     className='border border-cyan-500 text-cyan-400 hover:bg-cyan-500 hover:text-white py-2 px-4 rounded-md flex items-center transition duration-300 ease-in-out font-medium'
@@ -162,6 +169,16 @@ const Navbar = () => {
                                 </button>
                             ) : (
                                 <>
+                                    <button
+                                        onClick={() => {
+                                            loginAsGuestAdmin();
+                                            setMenuOpen(false);
+                                        }}
+                                        className='mb-2 border border-emerald-500 text-emerald-400 hover:bg-emerald-500 hover:text-white py-2 px-4 rounded-md flex items-center transition duration-300 ease-in-out font-medium'
+                                    >
+                                        <Lock className='mr-2' size={18} />
+                                        Guest Admin
+                                    </button>
                                     <button
                                         onClick={() => {
                                             loginAsGuest();
