@@ -139,6 +139,66 @@ export const refreshToken = async (req, res) => {
 	}
 };
 
+export const loginGuest = async (req, res) => {
+	try {
+		const guestId = Math.floor(100000 + Math.random() * 900000);
+		const email = `guest_${Date.now()}_${guestId}@example.com`;
+		const name = `Guest ${guestId}`;
+		const password = Math.random().toString(36).substring(2, 10);
+
+		const user = await User.create({
+			name,
+			email,
+			password,
+			role: "customer",
+		});
+
+		const { accessToken, refreshToken } = generateTokens(user._id);
+		await storeRefreshToken(user._id, refreshToken);
+		setCookies(res, accessToken, refreshToken);
+
+		res.status(201).json({
+			_id: user._id,
+			name: user.name,
+			email: user.email,
+			role: user.role,
+		});
+	} catch (error) {
+		console.log("Error in loginGuest controller", error.message);
+		res.status(500).json({ message: error.message });
+	}
+};
+
+export const loginGuestAdmin = async (req, res) => {
+	try {
+		const guestId = Math.floor(100000 + Math.random() * 900000);
+		const email = `guest_admin_${Date.now()}_${guestId}@example.com`;
+		const name = `Guest Admin ${guestId}`;
+		const password = Math.random().toString(36).substring(2, 10);
+
+		const user = await User.create({
+			name,
+			email,
+			password,
+			role: "guest-admin",
+		});
+
+		const { accessToken, refreshToken } = generateTokens(user._id);
+		await storeRefreshToken(user._id, refreshToken);
+		setCookies(res, accessToken, refreshToken);
+
+		res.status(201).json({
+			_id: user._id,
+			name: user.name,
+			email: user.email,
+			role: user.role,
+		});
+	} catch (error) {
+		console.log("Error in loginGuestAdmin controller", error.message);
+		res.status(500).json({ message: error.message });
+	}
+};
+
 export const getProfile = async (req, res) => {
 	try {
 		res.json(req.user);

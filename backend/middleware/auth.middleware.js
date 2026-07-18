@@ -33,9 +33,16 @@ export const protectRoute = async (req, res, next) => {
 };
 
 export const adminRoute = (req, res, next) => {
-	if (req.user && req.user.role === "admin") {
+	if (req.user && (req.user.role === "admin" || req.user.role === "guest-admin")) {
 		next();
 	} else {
-		return res.status(403).json({ message: "Access denied - Admin only" });
+		return res.status(403).json({ message: "Access denied - Admin only", error: "Access denied - Admin only" });
 	}
+};
+
+export const blockGuestAdmin = (req, res, next) => {
+	if (req.user && req.user.role === "guest-admin") {
+		return res.status(403).json({ message: "Access denied - Guest admin cannot modify data", error: "Access denied - Guest admin cannot modify data" });
+	}
+	next();
 };

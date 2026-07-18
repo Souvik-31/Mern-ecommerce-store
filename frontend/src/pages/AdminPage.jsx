@@ -1,5 +1,5 @@
 import React from "react";
-import { BarChart, PlusCircle, ShoppingBasket } from "lucide-react";
+import { BarChart, PlusCircle, ShoppingBasket, AlertTriangle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
@@ -7,6 +7,7 @@ import AnalyticsTab from "../components/AnalyticsTab";
 import CreateProductForm from "../components/CreateProductForm";
 import ProductsList from "../components/ProductsList";
 import { useProductStore } from "../stores/useProductStore";
+import { useUserStore } from "../stores/useUserStore";
 
 const tabs = [
 	{ id: "create", label: "Create Product", icon: PlusCircle },
@@ -17,6 +18,8 @@ const tabs = [
 const AdminPage = () => {
 	const [activeTab, setActiveTab] = useState("create");
 	const { fetchAllProducts } = useProductStore();
+	const { user } = useUserStore();
+	const isGuestAdmin = user?.role === "guest-admin";
 
 	useEffect(() => {
 		fetchAllProducts();
@@ -33,6 +36,23 @@ const AdminPage = () => {
 				>
 					Admin Dashboard
 				</motion.h1>
+
+				{isGuestAdmin && (
+					<motion.div
+						className='bg-amber-500/10 border border-amber-500/30 text-amber-200 p-4 rounded-lg mb-8 max-w-4xl mx-auto flex items-center gap-3'
+						initial={{ opacity: 0, y: -10 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ duration: 0.5 }}
+					>
+						<AlertTriangle className='text-amber-500 shrink-0' size={24} />
+						<div>
+							<p className='font-semibold text-base'>Guest Admin Mode</p>
+							<p className='text-sm text-amber-200/80'>
+								You have read access to view products and analytics. Product creation, toggling featured status, and deletions are restricted for guest accounts to protect database integrity.
+							</p>
+						</div>
+					</motion.div>
+				)}
 
 				<div className='flex justify-center mb-8'>
 					{tabs.map((tab) => (

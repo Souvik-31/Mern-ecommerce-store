@@ -35,6 +35,28 @@ export const useUserStore = create((set, get) => ({
 			toast.error(error.response.data.message || "An error occurred");
 		}
 	},
+	loginAsGuest: async () => {
+		set({ loading: true });
+		try {
+			const res = await axios.post("/auth/guest");
+			set({ user: res.data, loading: false });
+			toast.success("Logged in as Guest");
+		} catch (error) {
+			set({ loading: false });
+			toast.error(error.response?.data?.message || "An error occurred");
+		}
+	},
+	loginAsGuestAdmin: async () => {
+		set({ loading: true });
+		try {
+			const res = await axios.post("/auth/guest-admin");
+			set({ user: res.data, loading: false });
+			toast.success("Logged in as Guest Admin");
+		} catch (error) {
+			set({ loading: false });
+			toast.error(error.response?.data?.message || "An error occurred");
+		}
+	},
 
 	logout: async () => {
 		try {

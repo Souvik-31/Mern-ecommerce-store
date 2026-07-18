@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { LogIn, Mail, Lock, ArrowRight, Loader } from "lucide-react";
+import { LogIn, Mail, Lock, ArrowRight, Loader, User } from "lucide-react";
 import { useUserStore } from "../stores/useUserStore";
 
 const LoginPage = () => {
@@ -10,7 +10,7 @@ const LoginPage = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
-	const { login, loading } = useUserStore();
+	const { login, loading, loginAsGuest, loginAsGuestAdmin } = useUserStore();
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		console.log(email, password);
@@ -101,6 +101,36 @@ const LoginPage = () => {
 							)}
 						</button>
 					</form>
+
+					<div className='mt-6'>
+						<div className='relative'>
+							<div className='absolute inset-0 flex items-center'>
+								<div className='w-full border-t border-gray-600' />
+							</div>
+							<div className='relative flex justify-center text-sm'>
+								<span className='px-2 bg-gray-800 text-gray-400'>Or quick access</span>
+							</div>
+						</div>
+
+						<div className='mt-6 grid grid-cols-2 gap-3'>
+							<button
+								onClick={loginAsGuest}
+								disabled={loading}
+								className='w-full flex justify-center items-center py-2 px-4 border border-cyan-500 rounded-md shadow-sm text-sm font-medium text-cyan-400 hover:bg-cyan-500 hover:text-white transition duration-150 ease-in-out disabled:opacity-50'
+							>
+								<User className='mr-2 h-5 w-5' />
+								Guest Mode
+							</button>
+							<button
+								onClick={loginAsGuestAdmin}
+								disabled={loading}
+								className='w-full flex justify-center items-center py-2 px-4 border border-emerald-500 rounded-md shadow-sm text-sm font-medium text-emerald-400 hover:bg-emerald-500 hover:text-white transition duration-150 ease-in-out disabled:opacity-50'
+							>
+								<Lock className='mr-2 h-5 w-5' />
+								Guest Admin
+							</button>
+						</div>
+					</div>
 
 					<p className='mt-8 text-center text-sm text-gray-400'>
 						Not a member?{" "}
