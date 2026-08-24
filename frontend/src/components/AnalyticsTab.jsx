@@ -14,11 +14,13 @@ const AnalyticsTab = () => {
 	});
 	const [isLoading, setIsLoading] = useState(true);
 	const [dailySalesData, setDailySalesData] = useState([]);
+	const [dateRange, setDateRange] = useState("7days");
 
 	useEffect(() => {
 		const fetchAnalyticsData = async () => {
+			setIsLoading(true);
 			try {
-				const response = await axios.get("/analytics");
+				const response = await axios.get(`/analytics?range=${dateRange}`);
 				setAnalyticsData(response.data.analyticsData);
 				setDailySalesData(response.data.dailySalesData);
 			} catch (error) {
@@ -29,9 +31,9 @@ const AnalyticsTab = () => {
 		};
 
 		fetchAnalyticsData();
-	}, []);
+	}, [dateRange]);
 
-	if (isLoading) {
+	if (isLoading && !analyticsData.users) {
 		return <div>Loading...</div>;
 	}
 
@@ -63,38 +65,57 @@ const AnalyticsTab = () => {
 					color='from-cyan-500 to-lime-700'
 				/>
 			</div>
+
+			<div className='flex justify-end mb-4'>
+				<select
+					value={dateRange}
+					onChange={(e) => setDateRange(e.target.value)}
+					className='bg-gray-700 text-white px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500'
+				>
+					<option value='7days'>Last 7 Days</option>
+					<option value='30days'>Last 30 Days</option>
+					<option value='1year'>Last 1 Year</option>
+				</select>
+			</div>
+
 			<motion.div
 				className='bg-gray-800/60 rounded-lg p-6 shadow-lg'
 				initial={{ opacity: 0, y: 20 }}
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ duration: 0.5, delay: 0.25 }}
 			>
-				<ResponsiveContainer width='100%' height={400}>
-					<LineChart data={dailySalesData}>
-						<CartesianGrid strokeDasharray='3 3' />
-						<XAxis dataKey='date' stroke='#D1D5DB' />
-						<YAxis yAxisId='left' stroke='#D1D5DB' />
-						<YAxis yAxisId='right' orientation='right' stroke='#D1D5DB' />
-						<Tooltip />
-						<Legend />
-						<Line
-							yAxisId='left'
-							type='monotone'
-							dataKey='sales'
-							stroke='#10B981'
-							activeDot={{ r: 8 }}
-							name='Sales'
-						/>
-						<Line
-							yAxisId='right'
-							type='monotone'
-							dataKey='revenue'
-							stroke='#3B82F6'
-							activeDot={{ r: 8 }}
-							name='Revenue'
-						/>
-					</LineChart>
-				</ResponsiveContainer>
+				{isLoading && analyticsData.users ? (
+					<div className="flex justify-center items-center h-[400px]">
+						<span className="text-cyan-500">Loading chart data...</span>
+					</div>
+				) : (
+					<ResponsiveContainer width='100%' height={400}>
+						<LineChart data={dailySalesData}>
+							<CartesianGrid strokeDasharray='3 3' />
+							<XAxis dataKey='date' stroke='#D1D5DB' />
+							<YAxis yAxisId='left' stroke='#D1D5DB' />
+							<YAxis yAxisId='right' orientation='right' stroke='#D1D5DB' />
+							<Tooltip />
+							<Legend />
+							<Line
+								yAxisId='left'
+								type='monotone'
+								dataKey='sales'
+								stroke='#10B981'
+								activeDot={{ r: 8 }}
+								name='Sales'
+							/>
+							<Line
+								yAxisId='right'
+								type='monotone'
+								dataKey='revenue'
+								stroke='#3B82F6'
+								activeDot={{ r: 8 }}
+								name='Revenue'
+							/>
+						</LineChart>
+					</ResponsiveContainer>
+				)}
 			</motion.div>
 		</div>
 	);
