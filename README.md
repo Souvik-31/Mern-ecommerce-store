@@ -2,7 +2,12 @@
 
 A full-stack e-commerce application built with the MERN stack (MongoDB, Express.js, React, Node.js). This project is organized as a monorepo, with separate `backend` and `frontend` directories.
 
-![alt text](<screenshots\Screenshot 2026-08-25 011454.png>)
+<img width="1895" height="856" alt="Screenshot 2026-08-25 011454" src="https://github.com/user-attachments/assets/d0af6746-f7d4-45e0-bf70-f08dd0e3e782" />
+<img width="1896" height="856" alt="Screenshot 2026-08-25 011546" src="https://github.com/user-attachments/assets/355176e6-c34c-490e-a7e2-3169b30d8ae7" />
+<img width="1612" height="776" alt="Screenshot 2026-08-25 011619" src="https://github.com/user-attachments/assets/eefdc207-29b4-4452-b221-66d5091614e9" />
+<img width="1892" height="776" alt="Screenshot 2026-08-25 011636" src="https://github.com/user-attachments/assets/e7c1ae75-0022-4a0a-9dda-83a1d852380a" />
+
+
 ![alt text](<screenshots\Screenshot 2026-08-25 011546.png>)
 ![alt text](<screenshots\Screenshot 2026-08-25 011619.png>)
 ![alt text](<screenshots\Screenshot 2026-08-25 011636.png>)
