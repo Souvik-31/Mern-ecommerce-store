@@ -8,8 +8,17 @@ router.get("/", protectRoute, adminRoute, async (req, res) => {
 	try {
 		const analyticsData = await getAnalyticsData();
 
+		const { range } = req.query;
 		const endDate = new Date();
-		const startDate = new Date(endDate.getTime() - 7 * 24 * 60 * 60 * 1000);
+		let startDate = new Date();
+
+		if (range === "30days") {
+			startDate.setDate(startDate.getDate() - 30);
+		} else if (range === "1year") {
+			startDate.setFullYear(startDate.getFullYear() - 1);
+		} else {
+			startDate.setDate(startDate.getDate() - 7);
+		}
 
 		const dailySalesData = await getDailySalesData(startDate, endDate);
 
