@@ -44,11 +44,11 @@ const OrderPage = () => {
                                     )}
                                     <span className="font-semibold">{item.product?.name || "Product deleted"}</span>
                                     <span>x{item.quantity}</span>
-                                    <span className="text-cyan-400">${item.price}</span>
+                                    <span className="text-cyan-400">₹{item.price}</span>
                                 </li>
                             ))}
                         </ul>
-                        <div className="font-bold mt-2">Total: ${order.totalAmount}</div>
+                        <div className="font-bold mt-2">Total: ₹{order.totalAmount}</div>
                     </div>
                 ))
             )}
